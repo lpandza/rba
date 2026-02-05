@@ -1,3 +1,13 @@
+server:
+  servlet:
+    context-path: /api/v1
+
 spring:
   application:
     name: rba
+  liquibase:
+    change-log: db/changelog/db.changelog-master.xml
+
+external-api:
+  card-api:
+    base-url: "https://api.something.com"

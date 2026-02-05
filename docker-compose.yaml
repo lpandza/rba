@@ -1,0 +1,14 @@
+services:
+  db:
+    image: postgres:18
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=rba_dev
+    volumes:
+      - dev-rba-data:/var/lib/postgresql
+
+volumes:
+  dev-rba-data:

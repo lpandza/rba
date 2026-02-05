@@ -17,9 +17,9 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.ObjectMapper;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -83,4 +83,22 @@ public class ClientControllerTest {
     }
 
 
+    @Test
+    @DisplayName("Should delete client successfully when OIB exists")
+    void shouldDeleteClientSuccessfully() throws Exception {
+        clientRepository.save(new Client("Ivan", "Horvat", "12345678901", CardStatus.PENDING));
+
+        mockMvc.perform(delete("/client/{oib}", "12345678901"))
+               .andExpect(status().isOk());
+
+        assert clientRepository.findByOib("12345678901").isEmpty();
+    }
+
+    @Test
+    @DisplayName("Should return 404 Not Found when trying to delete non-existent client")
+    void shouldReturnNotFoundWhenDeletingNonExistent() throws Exception {
+        mockMvc.perform(delete("/client/{oib}", "99999999999"))
+               .andExpect(status().isNotFound())
+               .andExpect(jsonPath("$.message").value(containsString("not found")));
+    }
 }

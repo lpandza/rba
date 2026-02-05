@@ -45,3 +45,6 @@ The API will be available at `http://localhost:8080/api/v1`
 
 The external Card API (`https://api.something.com`) referenced in the OpenAPI specification does not exist. The
 integration is fully implemented and would work if the API were available.
+
+While this API does not include a frontend, I have built a similar frontend application using React and TypeScript,
+available at: https://github.com/lpandza/react-app
